@@ -5,17 +5,12 @@ namespace Plugin1
 {
     public class Plugin1 : IPlugin
     {
+        private string _name;
         public string Name
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get { return string.IsNullOrWhiteSpace(_name) ? "My default name: Plugin - 1" : _name; }
 
-            set
-            {
-                throw new NotImplementedException();
-            }
+            set { _name = value; }
         }
     }
 }
