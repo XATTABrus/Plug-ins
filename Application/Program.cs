@@ -20,18 +20,12 @@ namespace Application
                 .ToList();
 
             foreach (var type in listPlugins)
-            {           
-                var ctor = type.GetConstructor(new Type[] {});
+            {
+                var plugin = Activator.CreateInstance(type) as IPlugin;
 
-                if (ctor == null) continue;
+                if(plugin == null) continue;
 
-                var instance = ctor.Invoke(new object[] {});
-
-                var propertyInfo = type.GetProperty("Name");
-
-                var name = propertyInfo.GetValue(instance );
-
-                Console.WriteLine(name);
+                Console.WriteLine(plugin.Name);
             }
 
             Console.ReadLine();
