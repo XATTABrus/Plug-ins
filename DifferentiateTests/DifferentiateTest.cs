@@ -14,7 +14,7 @@ namespace DifferentiateTests
             Expression<Func<double, double>> f = x => x * x;
             var df = f.DifferentiateAndCompile();
 
-            var result = df.Invoke(12);
+            var result = df(12);
 
             Assert.AreEqual(24, result);
         }
@@ -25,7 +25,7 @@ namespace DifferentiateTests
             Expression<Func<double, double>> f = x => (10 + Math.Sin(x)) * x;
             var df = f.DifferentiateAndCompile();
             
-            var result = df.Invoke(12);
+            var result = df(12);
 
             Assert.AreEqual(19.5897, Math.Round(result, 4));
         }

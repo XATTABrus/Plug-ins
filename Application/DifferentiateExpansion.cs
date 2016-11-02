@@ -6,21 +6,18 @@ namespace Application
     public static class DifferentiateExpansion
     {
         /// <summary>
-        /// Дефиринцирует заданное лямбда выражение.
+        /// Дифференцирует заданное лямбда выражение.
         /// </summary>
         /// <param name="source">Исходное лямбда выражение</param>
-        /// <returns>Expression</returns>
         public static Expression<Func<double, double>> Differentiate(this Expression<Func<double, double>> source)
         {
             return Expression.Lambda(ParsingExpression(source.Body), source.Parameters[0]) as Expression<Func<double, double>>;
         }
 
         /// <summary>
-        /// Дефиринцирует заданное лямбда выражение и возвращает скомилированное лямбда выражение.
+        /// Дифференцирует заданное лямбда выражение и возвращает скомпилированную лямбду.
         /// </summary>
         /// <param name="source">Исходное лямбда выражение</param>
-        /// <param name="compile">Компилировать выражение</param>
-        /// <returns>Lambda</returns>
         public static Func<double, double> DifferentiateAndCompile(this Expression<Func<double, double>> source)
         {
             return Expression.Lambda(ParsingExpression(source.Body), source.Parameters[0]).Compile() as Func<double, double>;
@@ -30,7 +27,6 @@ namespace Application
         /// Дифференцирование исходного вырожения. 
         /// </summary>
         /// <param name="expression">Исходное выражение</param>
-        /// <returns></returns>
         private static Expression ParsingExpression(Expression expression)
         {
             // Производная от константы = 0
@@ -64,7 +60,7 @@ namespace Application
             {
                 var ex = expression as MethodCallExpression;
                 
-                if (ex.Method.Name == "Sin")
+                if (ex.Method.Name == "Sin" && ex.Method.DeclaringType.FullName == "System.Math")
                 {
                     var arg = ex.Arguments[0];
                     return Expression.Multiply(Expression.Call(typeof(Math).GetMethod("Cos"), arg), ParsingExpression(arg));
