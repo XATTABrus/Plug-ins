@@ -16,7 +16,7 @@ namespace Application
 
             var listPlugins = files
                 .Select(x => Assembly.LoadFile(x).GetTypes())
-                .SelectMany(x => x.Where(y => y.GetInterfaces().Contains(typeof(IPlugin))))
+                .SelectMany(x => x.Where(y => y.GetInterfaces().Contains(typeof(IPlugin)) && y.GetConstructor(Type.EmptyTypes) != null))
                 .ToList();
 
             foreach (var type in listPlugins)
